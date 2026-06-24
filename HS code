@@ -1,0 +1,25 @@
+# HS Code Classification Assistant
+
+AI-powered customs product classification system using Mistral LLM, RAG, and Qdrant.
+
+## Features
+
+- HS Code Prediction
+- Customs Regulation Retrieval
+- RAG Pipeline
+- FastAPI API
+- QLoRA Fine-Tuning
+- Docker Deployment
+
+## Tech Stack
+
+- Python
+- Mistral
+- FastAPI
+- Qdrant
+- Docker
+- MLflow
+
+## Status
+
+Under Development
