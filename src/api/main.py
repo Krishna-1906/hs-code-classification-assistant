@@ -5,6 +5,8 @@ app = FastAPI()
 
 # Load CSV
 df = pd.read_csv("data/sample_hs_codes.csv")
+print(df)
+print(df["product"].tolist())
 
 @app.get("/")
 def home():
