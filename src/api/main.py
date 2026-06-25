@@ -7,6 +7,7 @@ app = FastAPI()
 df = pd.read_csv("data/sample_hs_codes.csv")
 print(df)
 print(df.columns.tolist())
+print(df["product"].tolist())
 
 @app.get("/")
 def home():
