@@ -1,26 +1,26 @@
 from fastapi import FastAPI
+import pandas as pd
 
 app = FastAPI()
 
-products = {
-    "cotton t-shirt": "610910",
-    "leather shoes": "640399",
-    "laptop": "847130",
-    "mobile phone": "851713"
-}
+# Load CSV
+df = pd.read_csv("data/sample_hs_codes.csv")
 
 @app.get("/")
 def home():
-    return {"message": "HS Code Classification Assistant"}
+    return {
+        "message": "HS Code Classification Assistant"
+    }
 
 @app.get("/predict/{product}")
 def predict(product: str):
-    hs_code = products.get(product.lower())
 
-    if hs_code:
+    result = df[df["product"].str.lower() == product.lower()]
+
+    if not result.empty:
         return {
             "product": product,
-            "hs_code": hs_code
+            "hs_code": str(result.iloc[0]["hs_code"])
         }
 
     return {
