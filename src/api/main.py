@@ -1,31 +1,40 @@
 from fastapi import FastAPI
-import pandas as pd
+import requests
 
 app = FastAPI()
 
-# Load CSV
-df = pd.read_csv("data/sample_hs_codes.csv")
-print(df)
-print(df.columns.tolist())
-print(df["product"].tolist())
+OLLAMA_URL = "http://localhost:11434/api/generate"
 
 @app.get("/")
 def home():
-    return {
-        "message": "HS Code Classification Assistant"
-    }
+    return {"message": "HS Code Classification Assistant"}
 
 @app.get("/predict/{product}")
 def predict(product: str):
 
-    result = df[df["product"].str.lower() == product.lower()]
+    prompt = f"""
+You are an expert in HS Code Classification.
 
-    if not result.empty:
-        return {
-            "product": product,
-            "hs_code": str(result.iloc[0]["hs_code"])
+Classify this product:
+
+{product}
+
+Return ONLY JSON in this format:
+
+{{
+  "product":"{product}",
+  "hs_code":"XXXXXX",
+  "reason":"short reason"
+}}
+"""
+
+    response = requests.post(
+        OLLAMA_URL,
+        json={
+            "model": "mistral",
+            "prompt": prompt,
+            "stream": False
         }
+    )
 
-    return {
-        "error": "Product not found"
-    }
+    return response.json()
