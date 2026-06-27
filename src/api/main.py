@@ -37,4 +37,9 @@ Return ONLY JSON in this format:
         }
     )
 
-    return response.json()
+    result = response.json()
+
+    return {
+        "product": product,
+        "answer": result["response"]
+    }
